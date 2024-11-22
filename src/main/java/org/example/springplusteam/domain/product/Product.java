@@ -22,4 +22,5 @@ public class Product extends BaseEntity {
     private int price;
     private String performance_time;
     private LocalDateTime performance_period;
+    private int viewCount;
 }
