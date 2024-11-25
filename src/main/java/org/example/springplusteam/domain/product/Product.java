@@ -20,13 +20,13 @@ public class Product extends BaseEntity {
     private Long id;
 
     private String name;
-    private String price;
+    private int price;
     private String performance_time;
-    private String performance_period;
-    private String viewCount;
+    private LocalDateTime performance_period;
+    private int viewCount;
 
     @Builder
-    public Product(String name, String price, String performanceTime, String performancePeriod, String viewCount) {
+    public Product(String name, int price, String performanceTime, LocalDateTime performancePeriod, int viewCount) {
         this.name = name;
         this.price = price;
         this.performance_time = performanceTime;

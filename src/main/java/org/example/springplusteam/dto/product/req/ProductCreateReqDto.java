@@ -7,8 +7,8 @@ import lombok.Getter;
 @Getter
 public class ProductCreateReqDto {
 	private String name;
-	private String price;
+	private int price;
 	private String performanceTime;
-	private String performancePeriod;
+	private LocalDateTime performancePeriod;
 
 }

@@ -4,13 +4,16 @@ import java.time.LocalDateTime;
 
 import org.example.springplusteam.domain.product.Product;
 
+import lombok.Getter;
+
+@Getter
 public class ProductCreateRespDto {
 	private Long id;
 	private String name;
-	private String price;
+	private int price;
 	private String performanceTime;
-	private String performancePeriod;
-	private String viewCount;
+	private LocalDateTime performancePeriod;
+	private int viewCount;
 
 	public ProductCreateRespDto(Product product) {
 		this.id = product.getId();
