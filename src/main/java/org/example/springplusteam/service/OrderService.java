@@ -24,7 +24,7 @@ public class OrderService {
             String criteria
     ) {
         Pageable pageable = PageRequest.of(page, limit, Sort.by(Sort.Direction.DESC, criteria));
-        Page<Order> orders = orderRepository.findAllByUser(userId, pageable);
+        Page<Order> orders = orderRepository.findAllByUserId(userId, pageable);
 
         Page<OrderGetRespDto> response = orders.map(order ->
                 new OrderGetRespDto(
@@ -39,6 +39,5 @@ public class OrderService {
 
         return response;
     }
-
 }
 
