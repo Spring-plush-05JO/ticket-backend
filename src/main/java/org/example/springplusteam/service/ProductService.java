@@ -16,7 +16,6 @@ public class ProductService {
 
 	private final ProductRepository productRepository;
 
-	// 상품 생성
 	public ProductCreateRespDto createProduct(ProductCreateReqDto reqDto) {
 		Product product = Product.builder()
 			.name(reqDto.getName())
