@@ -33,4 +33,14 @@ public class Product extends BaseEntity {
         this.performance_period = performancePeriod;
         this.viewCount = viewCount;
     }
+
+    public static Product createProduct(String name, int price, String performance_time, LocalDateTime performance_period) {
+        Product product = new Product();
+        product.name = name;
+        product.price = price;
+        product.performance_time = performance_time;
+        product.performance_period = performance_period;
+        product.viewCount = 0;
+        return product;
+    }
 }
