@@ -28,5 +28,4 @@ public class OrderController {
         Page<OrderGetRespDto> respDtos = orderService.getOrders(authUser.getId(), page, limit, criteria);
         return ResponseEntity.status(HttpStatus.OK).body(respDtos);
     }
-
 }
