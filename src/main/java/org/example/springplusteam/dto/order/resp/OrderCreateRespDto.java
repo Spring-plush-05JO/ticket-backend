@@ -1,4 +1,4 @@
-package org.example.springplusteam.dto.order;
+package org.example.springplusteam.dto.order.resp;
 
 import lombok.Getter;
 import org.example.springplusteam.domain.order.DeliveryStatus;
@@ -12,7 +12,6 @@ public class OrderCreateRespDto {
     private int price;
     private DeliveryStatus deliveryStatus;
     private LocalDateTime createdAt;
-
 
     public OrderCreateRespDto(Long id, String productName,
                               int price,
