@@ -42,13 +42,13 @@ public class OrderService {
 
         orderRepository.save(order);
 
-        OrderCreateRespDto respDto = new OrderCreateRespDto(
-                order.getId(),
-                order.getProduct().getName(),
-                order.getProduct().getPrice(),
-                order.getDeliveryStatus(),
-                order.getCreatedAt()
-        );
+        OrderCreateRespDto respDto = OrderCreateRespDto.builder()
+                .orderId(order.getId())
+                .productName(order.getProduct().getName())
+                .price(order.getProduct().getPrice())
+                .deliveryStatus(order.getDeliveryStatus())
+                .createdAt(order.getCreatedAt())
+                .build();
 
         return respDto;
     }
