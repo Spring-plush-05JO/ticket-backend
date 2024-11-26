@@ -14,7 +14,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import static org.example.springplusteam.common.exception.ErrorCode.USER_NOT_FOUND;
-import static org.example.springplusteam.domain.order.DeliveryStatus.READY;
 
 @Service
 @RequiredArgsConstructor
