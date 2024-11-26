@@ -31,7 +31,7 @@ public class OrderService {
         Product product = productRepository.findById(productId)
                 .orElseThrow(() -> new CustomApiException(ErrorCode.PRODUCT_NOT_FOUND));
 
-        Order order = new Order(user, product, READY);
+        Order order = new Order(user, product);
 
         orderRepository.save(order);
 
@@ -39,6 +39,7 @@ public class OrderService {
                 order.getId(),
                 order.getProduct().getName(),
                 order.getProduct().getPrice(),
+                order.getDeliveryStatus(),
                 order.getCreatedAt()
         );
 
