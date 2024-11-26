@@ -1,6 +1,5 @@
 package org.example.springplusteam.controller;
 
-import java.time.LocalDate;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.example.springplusteam.domain.performances.Performances;
