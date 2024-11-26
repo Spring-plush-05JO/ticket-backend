@@ -20,7 +20,8 @@ public class OrderController {
     public ResponseEntity<OrderCreateRespDto> createOrder(
             @AuthenticationPrincipal AuthUser user,
             @PathVariable Long productId) {
-        OrderCreateRespDto orderCreateRespDto = orderService.createOrder(user, productId);
+        Long userId = user.getId();
+        OrderCreateRespDto orderCreateRespDto = orderService.createOrder(userId, productId);
         return ResponseEntity.status(HttpStatus.CREATED).body(orderCreateRespDto);
     }
 }

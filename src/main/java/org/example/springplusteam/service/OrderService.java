@@ -3,7 +3,6 @@ package org.example.springplusteam.service;
 import lombok.RequiredArgsConstructor;
 import org.example.springplusteam.common.exception.CustomApiException;
 import org.example.springplusteam.common.exception.ErrorCode;
-import org.example.springplusteam.common.security.AuthUser;
 import org.example.springplusteam.domain.order.Order;
 import org.example.springplusteam.domain.order.OrderRepository;
 import org.example.springplusteam.domain.product.Product;
@@ -25,8 +24,8 @@ public class OrderService {
     private final UserRepository userRepository;
 
     @Transactional
-    public OrderCreateRespDto createOrder(AuthUser authUser, Long productId) {
-        User user = userRepository.findById(authUser.getId())
+    public OrderCreateRespDto createOrder(Long userId, Long productId) {
+        User user = userRepository.findById(userId)
                 .orElseThrow(() -> new CustomApiException(USER_NOT_FOUND));
 
         Product product = productRepository.findById(productId)
@@ -36,7 +35,13 @@ public class OrderService {
 
         orderRepository.save(order);
 
-        OrderCreateRespDto respDto = new OrderCreateRespDto(order.getId());
+        OrderCreateRespDto respDto = new OrderCreateRespDto(
+                order.getId(),
+                order.getProduct().getName(),
+                order.getProduct().getPrice(),
+                order.getCreatedAt()
+        );
+
         return respDto;
     }
 }
