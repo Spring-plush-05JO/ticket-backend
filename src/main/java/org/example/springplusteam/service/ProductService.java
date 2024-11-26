@@ -54,21 +54,9 @@ public class ProductService {
 	}
 
 	public Page<ProductCreateRespDto> listProducts(Pageable pageable) {
-		QProduct product = QProduct.product;
+		List<Product> products = productRepository.findAllWithPagination(pageable);
+		long total = productRepository.countProducts();
 
-		// QueryDSL을 사용하여 페이징된 상품 리스트 조회
-		List<Product> products = jpaQueryFactory
-			.selectFrom(product)
-			.offset(pageable.getOffset())
-			.limit(pageable.getPageSize())
-			.fetch();
-
-		// 전체 개수 조회
-		long total = jpaQueryFactory
-			.selectFrom(product)
-			.fetchCount();
-
-		// DTO로 변환
 		List<ProductCreateRespDto> content = products.stream()
 			.map(ProductCreateRespDto::new)
 			.collect(Collectors.toList());
