@@ -4,9 +4,13 @@ import java.time.LocalDateTime;
 
 import org.example.springplusteam.domain.product.Product;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
+@AllArgsConstructor
+@NoArgsConstructor
 public class ProductCreateRespDto {
 	private Long id;
 	private String name;

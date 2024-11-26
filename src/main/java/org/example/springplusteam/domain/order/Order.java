@@ -26,6 +26,12 @@ import org.example.springplusteam.domain.user.User;
         @JoinColumn(name = "product_id")
         private Product product;
 
-        @Enumerated(EnumType.STRING)
-        private DeliveryStatus deliveryStatus;
+    @Enumerated(EnumType.STRING)
+    private DeliveryStatus deliveryStatus;
+
+    public Order(User user, Product product) {
+        this.user = user;
+        this.product = product;
+        this.deliveryStatus = DeliveryStatus.READY;
     }
+}
