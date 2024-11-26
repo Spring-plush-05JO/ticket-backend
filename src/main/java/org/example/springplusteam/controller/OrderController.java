@@ -2,8 +2,9 @@ package org.example.springplusteam.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.example.springplusteam.common.security.AuthUser;
-import org.example.springplusteam.dto.order.OrderCreateRespDto;
+import org.example.springplusteam.dto.order.resp.OrderCreateRespDto;
 import org.example.springplusteam.dto.order.resp.OrderSearchRespDto;
+import org.example.springplusteam.dto.order.resp.OrderStatusRespDto;
 import org.example.springplusteam.service.OrderService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -36,11 +37,22 @@ public class OrderController {
             @RequestParam(defaultValue = "modifiedAt") String sortBy,
             @RequestParam(defaultValue = "desc") String direction
 
-    ){
+    ) {
         Long userId = user.getId();
         Sort sort = Sort.by(Sort.Direction.fromString(direction), sortBy);
         Pageable pageable = PageRequest.of(page, limit, sort);
         Page<OrderSearchRespDto> respDtos = orderService.getOrders(userId, pageable);
         return ResponseEntity.status(HttpStatus.OK).body(respDtos);
+    }
+
+    // 주문 상태 변경 메서드
+    @PutMapping("/api/v1/orders/{orderId}/status")
+    public ResponseEntity<OrderStatusRespDto> changeOrder(
+            @AuthenticationPrincipal AuthUser user,
+            @PathVariable Long orderId
+    ) {
+        Long userId = user.getId();
+        OrderStatusRespDto respDto = orderService.changeOrder(userId, orderId);
+        return ResponseEntity.status(HttpStatus.OK).body(respDto);
     }
 }
