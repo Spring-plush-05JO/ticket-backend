@@ -2,6 +2,7 @@ package org.example.springplusteam.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.example.springplusteam.common.security.AuthUser;
+import org.example.springplusteam.dto.order.req.OrderStatusReqDto;
 import org.example.springplusteam.dto.order.resp.OrderCreateRespDto;
 import org.example.springplusteam.dto.order.resp.OrderSearchRespDto;
 import org.example.springplusteam.dto.order.resp.OrderStatusRespDto;
@@ -45,14 +46,14 @@ public class OrderController {
         return ResponseEntity.status(HttpStatus.OK).body(respDtos);
     }
 
-    // 주문 상태 변경 메서드
     @PutMapping("/api/v1/orders/{orderId}/status")
     public ResponseEntity<OrderStatusRespDto> changeOrder(
             @AuthenticationPrincipal AuthUser user,
-            @PathVariable Long orderId
+            @PathVariable Long orderId,
+            @RequestBody OrderStatusReqDto reqDto
     ) {
         Long userId = user.getId();
-        OrderStatusRespDto respDto = orderService.changeOrder(userId, orderId);
+        OrderStatusRespDto respDto = orderService.changeOrder(userId, orderId,reqDto);
         return ResponseEntity.status(HttpStatus.OK).body(respDto);
     }
 }
