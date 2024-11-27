@@ -15,6 +15,8 @@ public enum ErrorCode {
     ORDER_BAD_REQUEST(400, "잘못된 주문 상태 변경 요청입니다."),
     TICKET_NOT_FOUND(404, "티켓을 찾을 수 없습니다."),
     NO_SEAT_AVAILABLE(400, "남아있는 좌석이 없습니다."),
+
+
     ALREADY_RESERVE_SEAT(400, "이미 예약되어있는 좌석입니다."),
     ;
 
