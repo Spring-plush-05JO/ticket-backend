@@ -16,6 +16,8 @@ public enum ErrorCode {
     TICKET_NOT_FOUND(404, "티켓을 찾을 수 없습니다."),
     NO_SEAT_AVAILABLE(400, "남아있는 좌석이 없습니다."),
     ALREADY_RESERVE_SEAT(400, "이미 예약되어있는 좌석입니다."),
+    COUPON_NOT_FOUND(404, "쿠폰을 찾을 수 없습니다."),
+    NO_COUPON_AVAILABLE(400,"남아있는 쿠폰이 없습니다."),
     ;
 
 
