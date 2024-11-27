@@ -12,7 +12,10 @@ public enum ErrorCode {
     EXISTS_EMAIL(400, "존재하는 이메일 입니다."),
     PRODUCT_NOT_FOUND(404, "상품을 찾을 수 없습니다."),
     ORDER_NOT_FOUND(404, "해당 주문을 찾을 수 없습니다."),
-    ORDER_BAD_REQUEST(400, "잘못된 주문 상태 변경 요청입니다.");
+    ORDER_BAD_REQUEST(400, "잘못된 주문 상태 변경 요청입니다."),
+    TICKET_NOT_FOUND(404, "티켓을 찾을 수 없습니다."),
+    ;
+
 
     private final int status;
     private final String message;
