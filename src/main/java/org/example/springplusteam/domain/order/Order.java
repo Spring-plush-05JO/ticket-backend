@@ -35,4 +35,7 @@ public class Order extends BaseEntity {
         this.deliveryStatus = DeliveryStatus.READY;
     }
 
+    public void update(DeliveryStatus status) {
+        this.deliveryStatus = status;
+    }
 }
