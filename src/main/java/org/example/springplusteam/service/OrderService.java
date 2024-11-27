@@ -24,7 +24,6 @@ import static org.example.springplusteam.common.exception.ErrorCode.*;
 
 @Service
 @RequiredArgsConstructor
-@Transactional(readOnly = true)
 public class OrderService {
     private final OrderRepository orderRepository;
     private final ProductRepository productRepository;
