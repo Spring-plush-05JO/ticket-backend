@@ -4,24 +4,23 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.example.springplusteam.domain.performances.Performances;
 import org.example.springplusteam.service.performanceservice.PerformanceService;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/v1")
+@RequestMapping("/api/v1/performances")
 @RequiredArgsConstructor
 public class PerformancesController {
   private final PerformanceService performanceService;
 
-  /**
-   * Get all performances stored in the database.
-   * @return List of performances.
-   */
-  @GetMapping("performances")
-  public ResponseEntity<List<Performances>> getAllPerformances() {
-    List<Performances> performances = performanceService.getAllPerformances();
-    return ResponseEntity.ok(performances);
+  @GetMapping
+  public ResponseEntity<List<Performances>> listPerformances(
+      @Param("startData")String startData,@Param("endData") String endData, @Param(" mainAddress") String mainAddress,
+      @Param("subAddress") String subAddress) {
+    List<Performances> performancesList = performanceService.getPerformances();
+    return ResponseEntity.ok(performancesList);
   }
 }
