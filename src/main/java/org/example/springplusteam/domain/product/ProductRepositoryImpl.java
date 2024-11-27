@@ -29,7 +29,8 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom{
 		QProduct product = QProduct.product;
 
 		return jpaQueryFactory
-			.selectFrom(product)
+			.select(product.count())
+			.from(product)
 			.fetchCount();
 	}
 }
