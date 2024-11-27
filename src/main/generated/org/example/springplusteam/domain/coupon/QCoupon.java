@@ -19,7 +19,15 @@ public class QCoupon extends EntityPathBase<Coupon> {
 
     public static final QCoupon coupon = new QCoupon("coupon");
 
+    public final org.example.springplusteam.common.QBaseEntity _super = new org.example.springplusteam.common.QBaseEntity(this);
+
+    //inherited
+    public final DateTimePath<java.time.LocalDateTime> createdAt = _super.createdAt;
+
     public final NumberPath<Long> id = createNumber("id", Long.class);
+
+    //inherited
+    public final DateTimePath<java.time.LocalDateTime> modifiedAt = _super.modifiedAt;
 
     public final StringPath name = createString("name");
 

@@ -1,15 +1,17 @@
 package org.example.springplusteam.domain.coupon;
 
 import jakarta.persistence.*;
+import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.example.springplusteam.common.BaseEntity;
 
 @Getter
 @Entity
-@Table(name = "copones")
-@NoArgsConstructor
-public class Coupon {
+@Table(name = "coupons")
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+public class Coupon extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -25,5 +27,10 @@ public class Coupon {
         this.price = price;
         this.quantity = quantity;
         this.useQuantity = useQuantity;
+    }
+
+    public void updateQuantities(){
+        this.quantity -= 1;
+        this.useQuantity += 1;
     }
 }
