@@ -56,4 +56,14 @@ public class OrderController {
         OrderStatusRespDto respDto = orderService.changeOrder(userId, orderId,reqDto);
         return ResponseEntity.status(HttpStatus.OK).body(respDto);
     }
+
+    @DeleteMapping("/api/vi/orders/{orderId}")
+    public ResponseEntity<String> deleteOrder(
+            @AuthenticationPrincipal AuthUser user,
+            @PathVariable Long orderId
+    ) {
+        Long userId = user.getId();
+        orderService.deleteOrder(userId, orderId);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body("삭제완료");
+    }
 }

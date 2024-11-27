@@ -53,7 +53,6 @@ public class OrderService {
         return respDto;
     }
 
-    @Transactional
     public Page<OrderSearchRespDto> getOrders(
             Long userId,
             Pageable pageable
@@ -84,5 +83,17 @@ public class OrderService {
 
         return respDto;
     }
+
+    @Transactional
+    public void deleteOrder(Long userId, Long orderId) {
+        userRepository.findById(userId).orElseThrow(()
+                -> new CustomApiException(USER_NOT_FOUND));
+
+        Order order = orderRepository.findById(orderId)
+                .orElseThrow(() -> new CustomApiException(ORDER_NOT_FOUND));
+
+        orderRepository.delete(order);
+    }
 }
+
 
