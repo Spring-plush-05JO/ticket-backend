@@ -5,12 +5,13 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.example.springplusteam.common.BaseEntity;
 
 @Entity
 @Getter
 @Table(name = "tickets")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Ticket {
+public class Ticket extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,5 +28,10 @@ public class Ticket {
         this.price = price;
         this.quantity = quantity;
         this.useQuantity = useQuantity;
+    }
+
+    public void updateQuantities(){
+        this.quantity -= 1;
+        this.useQuantity += 1;
     }
 }
