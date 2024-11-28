@@ -1,10 +1,13 @@
 package org.example.springplusteam.service.performanceservice;
 
-import jakarta.annotation.PostConstruct;
+import com.opencsv.bean.CsvToBean;
+import com.opencsv.bean.CsvToBeanBuilder;
+import java.io.FileReader;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.example.springplusteam.domain.performances.Performances;
 import org.example.springplusteam.domain.performances.PerformancesRepository;
+import org.example.springplusteam.dto.performance.PerformanceDto;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -13,33 +16,19 @@ public class PerformanceService{
 
   private final PerformancesRepository performancesRepository;
 
-  public Performances savePerformances(Performances performances){
-    performances.setId(performances.getId());
-    performances.setGenre(performances.getGenre());
-    performances.setName(performances.getName());
-    performances.setPlace(performances.getPlace());
-    performances.setMainAddress(performances.getMainAddress());
-    performances.setSubAddress(performances.getSubAddress());
-    performances.setStartData(performances.getStartData());
-    performances.setEndData(performances.getEndData());
-    return performancesRepository.save(performances);
+  public void save() throws Exception {
+    List<PerformanceDto> performanceDto = readCsvFile();
+    List<Performances> list = performanceDto.stream().map(PerformanceDto::from).toList();
+    performancesRepository.saveAll(list);
   }
 
-  @PostConstruct
-  public void savePerformances(){
-    Performances performances = new Performances();
-    performances.setId(performances.getId());
-    performances.setGenre(performances.getGenre());
-    performances.setName(performances.getName());
-    performances.setPlace(performances.getPlace());
-    performances.setMainAddress(performances.getMainAddress());
-    performances.setSubAddress(performances.getSubAddress());
-    performances.setStartData(performances.getStartData());
-    performances.setEndData(performances.getEndData());
+  public List<PerformanceDto> readCsvFile() throws Exception {
+    try (FileReader reader = new FileReader("Korea_Performance_Information_20210121.csv")) {
+      CsvToBean<PerformanceDto> csvToBean = new CsvToBeanBuilder<PerformanceDto>(reader)
+          .withType(PerformanceDto.class)
+          .withIgnoreLeadingWhiteSpace(true)
+          .build();
+      return csvToBean.parse();
+    }
   }
-
-  public List<Performances> getPerformances(){
-    return performancesRepository.findAll();
-  }
-
 }
