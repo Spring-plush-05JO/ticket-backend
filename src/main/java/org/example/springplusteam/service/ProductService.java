@@ -7,8 +7,11 @@ import org.example.springplusteam.common.exception.CustomApiException;
 import org.example.springplusteam.common.exception.ErrorCode;
 import org.example.springplusteam.domain.product.Product;
 import org.example.springplusteam.domain.product.ProductRepository;
+import org.example.springplusteam.domain.view.View;
+import org.example.springplusteam.domain.view.ViewRepository;
 import org.example.springplusteam.dto.product.req.ProductCreateReqDto;
 import org.example.springplusteam.dto.product.resp.ProductCreateRespDto;
+import org.example.springplusteam.dto.product.resp.ProductRespDto;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -21,6 +24,7 @@ import lombok.RequiredArgsConstructor;
 public class ProductService {
 
 	private final ProductRepository productRepository;
+	private final ViewRepository viewRepository;
 
 	public ProductCreateRespDto createProduct(ProductCreateReqDto reqDto) {
 		Product product = Product.builder()
@@ -56,5 +60,23 @@ public class ProductService {
 			.collect(Collectors.toList());
 
 		return new PageImpl<>(content, pageable, total);
+	}
+
+	public ProductRespDto getProductViewCount(Long productId, Long authUserId) {
+		Product product = productRepository.findById(productId)
+				.orElseThrow(()-> new CustomApiException(ErrorCode.PRODUCT_NOT_FOUND));
+
+		saveViewLog(authUserId, product.getId());
+
+		// 이력테이블에서 product.id로 count 쿼리로 조회수 카운트한다.
+		int count = viewRepository.countByProductId(product.getId());
+        return new ProductRespDto(product, count);
+	}
+
+	private void saveViewLog(Long authUserId, Long productId) {
+		// 조회한 product.id와 로그인한 유저를 조회 이력에 남김
+		View view = new View(productId, authUserId);
+		// 조회 이력 저장
+		viewRepository.save(view);
 	}
 }
