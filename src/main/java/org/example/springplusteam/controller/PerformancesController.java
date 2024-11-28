@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class PerformancesController {
   private final PerformanceService performanceService;
 
-  @GetMapping()
+  @GetMapping
   public ResponseEntity<List<Performances>> listPerformances(
       @Param("startData")String startData,@Param("endData") String endData, @Param(" mainAddress") String mainAddress,
       @Param("subAddress") String subAddress) {

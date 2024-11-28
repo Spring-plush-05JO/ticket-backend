@@ -19,20 +19,27 @@ public class Performances implements Serializable {
 
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
-  private Integer id;
+  private Long id;
+
   @Column(name = "name")
   private String name;
+
   @Column(name="genre")
   private String genre;
+
   @Column(name="place")
   private String place ;
+
   @Column(name="main_address")
   private String mainAddress;
+
   @Column(name="sub_address")
   private String subAddress;
-  @Column(name = "start_data")
+
+  @Column(name="start_data")
   private String startData;
-  @Column(name = "end_data")
+
+  @Column(name="end_data")
   private String endData;
 
   public Performances(String name, String genre, String place, String mainAddress, String subAddress, String startData, String endData) {
@@ -44,7 +51,8 @@ public class Performances implements Serializable {
     this.startData = startData;
     this.endData = endData;
   }
-  public Performances(String name, String genre, String place, String mainAddress, String subAddress, String startData, String endData, Integer id) {
+
+  public Performances(String name, String genre, String place, String mainAddress, String subAddress, String startData, String endData, Long id) {
     this.name = name;
     this.genre = genre;
     this.place = place;

@@ -15,6 +15,7 @@ import org.springframework.stereotype.Component;
 import java.security.Key;
 import java.util.Base64;
 import java.util.Date;
+import java.util.Map;
 
 @Slf4j
 @Component
@@ -72,13 +73,14 @@ public class JwtUtil {
                 .build()
                 .parseClaimsJws(token);
 
-        Long id = (Long) claims.getBody().get("id");
+        String id = String.valueOf(claims.getBody().get("id"));
         String email = claims.getBody().getSubject();
-        UserRole userRole = UserRole.valueOf((String) claims.getBody().get("Role"));
+        Map<String, String> roleMap = (Map<String, String>) claims.getBody().get("Role");
+        UserRole userRole = UserRole.valueOf(roleMap.get("authority").replaceAll("ROLE_", ""));
 
         log.info("JWT TOKEN CLAIM EMAIL : {}", email);
         User user = User.builder()
-                .id(id)
+                .id(Long.parseLong(id))
                 .email(email)
                 .userRole(userRole)
                 .build();

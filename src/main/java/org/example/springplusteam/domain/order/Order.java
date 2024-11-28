@@ -28,4 +28,14 @@ public class Order extends BaseEntity {
 
     @Enumerated(EnumType.STRING)
     private DeliveryStatus deliveryStatus;
+
+    public Order(User user, Product product) {
+        this.user = user;
+        this.product = product;
+        this.deliveryStatus = DeliveryStatus.READY;
+    }
+
+    public void update(DeliveryStatus status) {
+        this.deliveryStatus = status;
+    }
 }
