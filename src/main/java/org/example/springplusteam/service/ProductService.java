@@ -74,9 +74,18 @@ public class ProductService {
 	}
 
 	private void saveViewLog(Long authUserId, Long productId) {
+		// 존재한다면? 다음 로직 타면 안돼
+		if (hasUserViewedProduct(authUserId, productId)){
+			return;
+		}
 		// 조회한 product.id와 로그인한 유저를 조회 이력에 남김
 		View view = new View(productId, authUserId);
 		// 조회 이력 저장
 		viewRepository.save(view);
+	}
+
+	private boolean hasUserViewedProduct(Long authUserId, Long productId) {
+		// 동일 유저가 조회 했을때 이력이 쌓이지 않아야함
+		return viewRepository.existsByProductIdAndUserId(productId, authUserId);
 	}
 }
