@@ -2,6 +2,7 @@ package org.example.springplusteam.service.performanceservice;
 
 import com.opencsv.bean.CsvToBean;
 import com.opencsv.bean.CsvToBeanBuilder;
+import jakarta.transaction.Transactional;
 import java.io.FileReader;
 import java.util.List;
 import lombok.RequiredArgsConstructor;

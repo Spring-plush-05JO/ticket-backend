@@ -1,13 +1,15 @@
 package org.example.springplusteam.dto.performance;
 
 import jakarta.persistence.Column;
-import lombok.Getter;
-import lombok.Setter;
+import jakarta.persistence.Id;
+import lombok.Data;
 import org.example.springplusteam.domain.performances.Performances;
 
-@Getter
-@Setter
+@Data
 public class PerformanceDto {
+
+  @Id
+  private Long id;
 
   @Column(name = "name")
   private String name;
@@ -32,6 +34,7 @@ public class PerformanceDto {
 
   public static Performances from(PerformanceDto dto) {
     return Performances.builder()
+        .id(dto.getId())
         .name(dto.getName())
         .genre(dto.getGenre())
         .mainAddress(dto.getMainAddress())
