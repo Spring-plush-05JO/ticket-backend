@@ -9,10 +9,13 @@ import org.example.springplusteam.domain.product.Product;
 import org.example.springplusteam.domain.product.ProductRepository;
 import org.example.springplusteam.dto.product.req.ProductCreateReqDto;
 import org.example.springplusteam.dto.product.resp.ProductCreateRespDto;
+import org.springframework.cache.CacheManager;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
 
@@ -21,6 +24,7 @@ import lombok.RequiredArgsConstructor;
 public class ProductService {
 
 	private final ProductRepository productRepository;
+	private final CacheManager cacheManager;
 
 	public ProductCreateRespDto createProduct(ProductCreateReqDto reqDto) {
 		Product product = Product.builder()
@@ -34,9 +38,12 @@ public class ProductService {
 		return new ProductCreateRespDto(savedProduct);
 	}
 
+	@Transactional
+	@Cacheable(cacheNames = "popular_products", key = "#id")
 	public ProductCreateRespDto getProduct(Long id) {
 		Product product = productRepository.findById(id)
 			.orElseThrow(()-> new CustomApiException(ErrorCode.PRODUCT_NOT_FOUND));
+		product.updateViewCount();
 		return new ProductCreateRespDto(
 			product.getId(),
 			product.getName(),

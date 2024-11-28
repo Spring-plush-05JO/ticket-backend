@@ -43,4 +43,8 @@ public class Product extends BaseEntity {
         product.viewCount = 0;
         return product;
     }
+
+    public void updateViewCount() {
+        this.viewCount += 1;
+    }
 }
