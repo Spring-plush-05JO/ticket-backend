@@ -2,6 +2,7 @@ package org.example.springplusteam.common.security;
 
 import jakarta.servlet.DispatcherType;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.example.springplusteam.common.security.filter.CustomAuthenticationFilter;
 import org.example.springplusteam.common.security.filter.CustomAuthorizationFilter;
 import org.example.springplusteam.common.security.filter.GlobalExceptionHandlerFilter;
@@ -10,6 +11,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
@@ -25,6 +27,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+@Slf4j
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
@@ -39,6 +42,7 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
+    @Profile("dev")
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
@@ -59,7 +63,32 @@ public class SecurityConfig {
                 .addFilterBefore(new CustomAuthenticationFilter(authenticationManager(authenticationConfiguration), jwtUtil)
                         , UsernamePasswordAuthenticationFilter.class);
 
+        log.info("Security Config Dev 버전 빈등록");
+        return http.build();
+    }
 
+    @Profile("test")
+    @Bean
+    public SecurityFilterChain securityFilterChainTest(HttpSecurity http) throws Exception {
+        http
+                .authorizeHttpRequests(auth -> auth
+                        .dispatcherTypeMatchers(DispatcherType.FORWARD, DispatcherType.ERROR).permitAll()
+                        .requestMatchers("/auth/**").permitAll()
+                        .requestMatchers("/error").permitAll()
+                        .anyRequest().authenticated())
+                .headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin))
+                .csrf(AbstractHttpConfigurer::disable)
+                .formLogin(AbstractHttpConfigurer::disable)
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .httpBasic(AbstractHttpConfigurer::disable)
+                .addFilterBefore(new GlobalExceptionHandlerFilter(), CustomAuthorizationFilter.class)
+                .addFilterBefore(new CustomAuthorizationFilter(authenticationManager(authenticationConfiguration), jwtUtil),
+                        CustomAuthorizationFilter.class)
+                .addFilterBefore(new CustomAuthenticationFilter(authenticationManager(authenticationConfiguration), jwtUtil)
+                        , UsernamePasswordAuthenticationFilter.class);
+
+
+        log.info("Security Config Test 버전 빈 등록 ");
         return http.build();
     }
 
@@ -78,6 +107,7 @@ public class SecurityConfig {
     }
 
     @Bean
+    @Profile("dev")
     @ConditionalOnProperty(name = "spring.h2.console.enabled", havingValue = "true")
     public WebSecurityCustomizer configureH2ConsoleEnable() {
         return web -> web.ignoring()
