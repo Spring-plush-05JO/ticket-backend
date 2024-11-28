@@ -1,5 +1,7 @@
 package org.example.springplusteam.service;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -37,6 +39,28 @@ public class ProductService {
 
 		Product savedProduct = productRepository.save(product);
 		return new ProductCreateRespDto(savedProduct);
+	}
+
+	public void saveDummyProducts() {
+		List<Product> products = new ArrayList<>();
+		for (int i = 1; i <= 100000; i++) {
+			Product product = Product.createProduct(
+				"Product" + i,
+				(int) (Math.random() * 100000) + 1,
+				"PerformanceTime" + i,
+				LocalDateTime.now().plusDays(i)
+			);
+			products.add(product);
+
+			// Batch size 설정 (예: 1,000개씩 저장)
+			if (i % 1000 == 0) {
+				productRepository.saveAll(products);
+				products.clear();
+			}
+		}
+		if (!products.isEmpty()) {
+			productRepository.saveAll(products);
+		}
 	}
 
 	@Transactional

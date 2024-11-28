@@ -32,6 +32,12 @@ public class ProductController {
 		return ResponseEntity.status(HttpStatus.CREATED).body(createdProduct);
 	}
 
+	@PostMapping("/api/products/dummy")
+	public ResponseEntity<String> insertDummyProducts() {
+		productService.saveDummyProducts();
+		return ResponseEntity.ok("Dummy products inserted successfully.");
+	}
+
 	@GetMapping("/{productId}")
 	public ResponseEntity<ProductCreateRespDto> findById(
 			@PathVariable Long productId) {
