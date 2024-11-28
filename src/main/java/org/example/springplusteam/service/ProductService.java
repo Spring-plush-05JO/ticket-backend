@@ -14,6 +14,7 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -63,5 +64,17 @@ public class ProductService {
 			.collect(Collectors.toList());
 
 		return new PageImpl<>(content, pageable, total);
+	}
+
+	// 매일 자정에 조회수 리셋
+	@Scheduled(cron = "0 0 0 * * ?")
+	@Transactional
+	public void resetViewCounts() {
+		List<Product> products = productRepository.findAll();
+		products.forEach(product -> {
+			product.setViewCount();
+			productRepository.save(product);
+		});
+		cacheManager.getCache("popular_products").clear();
 	}
 }
