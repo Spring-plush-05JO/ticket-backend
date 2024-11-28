@@ -20,17 +20,13 @@ public class Coupon extends BaseEntity {
     private int quantity;
     private int useQuantity;
 
-    @Version
-    private int version;
-
     @Builder
-    public Coupon(Long id, String name, int price, int quantity, int useQuantity, int version) {
+    public Coupon(Long id, String name, int price, int quantity, int useQuantity) {
         this.id = id;
         this.name = name;
         this.price = price;
         this.quantity = quantity;
         this.useQuantity = useQuantity;
-        this.version = version;
     }
 
     public void updateQuantities(){
