@@ -2,9 +2,9 @@ package org.example.springplusteam.service.performanceservice;
 
 import com.opencsv.bean.CsvToBean;
 import com.opencsv.bean.CsvToBeanBuilder;
-import jakarta.transaction.Transactional;
 import java.io.FileReader;
 import java.util.List;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.example.springplusteam.domain.performances.Performances;
 import org.example.springplusteam.domain.performances.PerformancesRepository;
@@ -31,5 +31,10 @@ public class PerformanceService{
           .build();
       return csvToBean.parse();
     }
+  }
+
+  public Performances search(Long id) {
+    Optional<Performances> byId = performancesRepository.findById(id);
+    return byId.get();
   }
 }
