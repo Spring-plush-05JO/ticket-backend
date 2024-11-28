@@ -13,12 +13,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class PerformancesController {
   private final PerformanceService performanceService;
-
-
   @GetMapping("/{id}")
   public Performances getPerformances(@PathVariable Long id) {
     return performanceService.search(id);
   }
-
-  //옵셔널, 페스베리얼
 }

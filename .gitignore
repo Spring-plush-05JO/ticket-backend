@@ -38,4 +38,4 @@ out/
 .vscode/
 
 *.csv
-
+*.DS_Store
