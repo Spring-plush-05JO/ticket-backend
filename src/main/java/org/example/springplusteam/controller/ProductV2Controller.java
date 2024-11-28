@@ -18,7 +18,7 @@ public class ProductV2Controller {
 
     @GetMapping("/api/v2/products/{productId}")
     public ResponseEntity<ProductRespDto> getProduct(@PathVariable Long productId, @AuthenticationPrincipal AuthUser authUser) {
-        ProductRespDto productRespDto = productService.getProductViewCount(productId, authUser.getId());
+        ProductRespDto productRespDto = productService.getProductWithViewCount(productId, authUser.getId());
         return ResponseEntity.ok(productRespDto);
     }
 
