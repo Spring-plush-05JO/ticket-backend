@@ -48,7 +48,7 @@ public class CouponService {
          User user = userRepository.findById(userId).orElseThrow(() ->
                 new CustomApiException(ErrorCode.USER_NOT_FOUND));
 
-         Coupon coupon = couponRepository.findById(couponId).orElseThrow(() ->
+         Coupon coupon = couponRepository.findByCouponId(couponId).orElseThrow(() ->
                 new CustomApiException(ErrorCode.COUPON_NOT_FOUND));
 
         if (!(coupon.getQuantity() > 0)) {
