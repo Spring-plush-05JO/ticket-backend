@@ -1,8 +1,6 @@
 package org.example.springplusteam.service;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
+import lombok.RequiredArgsConstructor;
 import org.example.springplusteam.common.exception.CustomApiException;
 import org.example.springplusteam.common.exception.ErrorCode;
 import org.example.springplusteam.domain.product.Product;
@@ -17,7 +15,8 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import lombok.RequiredArgsConstructor;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -25,6 +24,7 @@ public class ProductService {
 
 	private final ProductRepository productRepository;
 	private final ViewRepository viewRepository;
+	private final ViewService viewService;
 
 	public ProductCreateRespDto createProduct(ProductCreateReqDto reqDto) {
 		Product product = Product.builder()
@@ -62,15 +62,14 @@ public class ProductService {
 		return new PageImpl<>(content, pageable, total);
 	}
 
-	public ProductRespDto getProductViewCount(Long productId, Long authUserId) {
+	public ProductRespDto getProductWithViewCount(Long productId, Long authUserId) {
 		Product product = productRepository.findById(productId)
 				.orElseThrow(()-> new CustomApiException(ErrorCode.PRODUCT_NOT_FOUND));
 
 		saveViewLog(authUserId, product.getId());
 
-		// 이력테이블에서 product.id로 count 쿼리로 조회수 카운트한다.
-		int count = viewRepository.countByProductId(product.getId());
-        return new ProductRespDto(product, count);
+		int viewCount = viewService.getViewCount(product.getId());
+		return new ProductRespDto(product, viewCount);
 	}
 
 	private void saveViewLog(Long authUserId, Long productId) {
