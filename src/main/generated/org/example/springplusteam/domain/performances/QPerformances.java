@@ -46,6 +46,4 @@ public class QPerformances extends EntityPathBase<Performances> {
     public QPerformances(PathMetadata metadata) {
         super(Performances.class, metadata);
     }
-
 }
-

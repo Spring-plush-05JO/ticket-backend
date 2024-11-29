@@ -21,5 +21,4 @@ public class ProductV2Controller {
         ProductRespDto productRespDto = productService.getProductWithViewCount(productId, authUser.getId());
         return ResponseEntity.ok(productRespDto);
     }
-
 }

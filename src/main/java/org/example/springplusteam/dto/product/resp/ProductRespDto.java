@@ -15,7 +15,6 @@ public class ProductRespDto {
     private LocalDateTime performance_period;
     private int count;
 
-
     public ProductRespDto(Product product, int count) {
         this.id = product.getId();
         this.name = product.getName();
@@ -24,6 +23,4 @@ public class ProductRespDto {
         this.performance_period = product.getPerformance_period();
         this.count = count;
     }
-
-
 }

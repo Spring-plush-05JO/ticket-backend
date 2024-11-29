@@ -50,6 +50,11 @@ dependencies {
     annotationProcessor "com.querydsl:querydsl-apt:${dependencyManagement.importedProperties['querydsl.version']}:jakarta"
     annotationProcessor "jakarta.annotation:jakarta.annotation-api"
     annotationProcessor "jakarta.persistence:jakarta.persistence-api"
+
+    //Caffeine Cache
+    implementation 'org.springframework.boot:spring-boot-starter-cache'
+    implementation 'com.github.ben-manes.caffeine:caffeine'
+    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
     //csv
     implementation group: 'com.opencsv', name: 'opencsv', version: '5.9'
 }
@@ -75,4 +80,3 @@ sourceSets {
 clean {
     delete file(generated)
 }
-

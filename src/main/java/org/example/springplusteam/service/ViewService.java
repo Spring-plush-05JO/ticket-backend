@@ -16,5 +16,4 @@ public class ViewService {
         // 이력테이블에서 product.id로 count 쿼리로 조회수 카운트한다.
         return viewRepository.countByProductId(productId);
     }
-
 }

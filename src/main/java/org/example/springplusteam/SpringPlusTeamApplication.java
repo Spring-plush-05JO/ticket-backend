@@ -13,5 +13,4 @@ public class SpringPlusTeamApplication {
     public static void main(String[] args) {
         SpringApplication.run(SpringPlusTeamApplication.class, args);
     }
-
 }
